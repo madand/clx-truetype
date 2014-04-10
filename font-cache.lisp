@@ -1,13 +1,14 @@
-
 (in-package #:clx-truetype)
 
-(defvar *font-dirs* #+(or unix netbsd openbsd freebsd) (list "/usr/share/fonts/"
-                                     (namestring (merge-pathnames ".fonts/" (user-homedir-pathname))))
-        #+darwin (list "/Library/Fonts/")
-        #+windows  (list (namestring
-                          (merge-pathnames "fonts/" 
-                                           (pathname (concatenate 'string (asdf:getenv "WINDIR") "/")))))
-        "List of directories, which contain TrueType fonts.")
+(defvar *font-dirs* 
+    #+(or unix netbsd openbsd freebsd) 
+          (list "/usr/share/fonts/" 
+               #+darwin "/Library/Fonts/"
+               (namestring (merge-pathnames ".fonts/" (user-homedir-pathname))))
+    #+windows (list (namestring
+                                (merge-pathnames "fonts/" 
+                                    (pathname (concatenate 'string (asdf:getenv "WINDIR") "/")))))
+    "List of directories, which contain TrueType fonts.")
 
 ;; family ->
 ;;   subfamily -> filename
