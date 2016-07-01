@@ -586,6 +586,9 @@ If @var{gcontext} has background color, text bounding box will be filled with it
                                            :format (display-alpha-picture-format display))))
            (source-picture (get-drawable-pen-picture drawable))
            (destination-picture (get-drawable-picture drawable)))
+
+      (xlib:free-gcontext alpha-gc)
+
       (update-foreground drawable gcontext font)
       (when draw-background-p
         (update-background drawable gcontext font (+ x min-x) (- y max-y) width height))
@@ -596,6 +599,9 @@ If @var{gcontext} has background color, text bounding box will be filled with it
       (setf (xlib::picture-clip-mask destination-picture)
             (xlib::gcontext-clip-mask gcontext))
       (xlib:render-composite :over source-picture alpha-picture destination-picture 0 0 0 0 (+ x min-x) (- y max-y) width height)
+
+      (xlib:render-free-picture alpha-picture)
+      (xlib:free-pixmap alpha-pixmap)
       nil)))
 
 (defun draw-text-line (drawable gcontext font string x y &key start end draw-background-p)
@@ -621,6 +627,9 @@ If @var{gcontext} has background color, text line bounding box will be filled wi
                                            :format (display-alpha-picture-format display))))
            (source-picture (get-drawable-pen-picture drawable))
            (destination-picture (get-drawable-picture drawable)))
+
+      (xlib:free-gcontext alpha-gc)
+
       (update-foreground drawable gcontext font)
       (when draw-background-p
         (update-background drawable gcontext font (+ x min-x) (- y max-y) width height))
@@ -631,6 +640,9 @@ If @var{gcontext} has background color, text line bounding box will be filled wi
       (setf (xlib::picture-clip-mask destination-picture)
             (xlib::gcontext-clip-mask gcontext))
       (xlib:render-composite :over source-picture alpha-picture destination-picture 0 0 0 0 (+ x min-x) (- y max-y) width height)
+
+      (xlib:render-free-picture alpha-picture)
+      (xlib:free-pixmap alpha-pixmap)
       nil)))
 
 ;;; Test utils
